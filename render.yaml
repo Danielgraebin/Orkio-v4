@@ -1,70 +1,40 @@
-# Render Blueprint para ORKIO v4
+# Render Blueprint para ORKIO v4 - Docker
 # https://render.com/docs/blueprint-spec
 
 services:
-  # PostgreSQL Database
-  - type: pserv
-    name: orkio-postgres
-    env: docker
-    plan: free
-    region: oregon
-    databases:
-      - name: orkio
-        user: orkio
-    ipAllowList: []
-
-  # Backend (FastAPI)
+  # Backend (FastAPI com Docker)
   - type: web
     name: orkio-backend
-    env: python
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     region: oregon
     plan: free
     branch: main
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /api/v1/health
     autoDeploy: true
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: orkio-postgres
-          property: connectionString
+        sync: false  # Configurado manualmente (Supabase)
       - key: OPENAI_API_KEY
-        sync: false  # Precisa ser configurado manualmente
+        sync: false  # Configurado manualmente
       - key: SECRET_KEY
-        generateValue: true
+        sync: false  # Configurado manualmente
       - key: WEBHOOK_SECRET
-        generateValue: true
-      - key: API_V1_STR
-        value: /api/v1
-      - key: JWT_ALGORITHM
-        value: HS256
-      - key: ENVIRONMENT
-        value: production
-      - key: DEBUG
-        value: false
-      - key: CORS_ORIGINS
-        value: http://localhost:3000
+        sync: false  # Configurado manualmente
+      - key: FRONTEND_URL
+        value: https://orkio-frontend.onrender.com
 
-  # Frontend (Next.js)
+  # Frontend (Next.js com Docker)
   - type: web
     name: orkio-frontend
-    env: node
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
     region: oregon
     plan: free
     branch: main
-    rootDir: web
-    buildCommand: pnpm install && pnpm build
-    startCommand: pnpm start
     autoDeploy: true
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: orkio-backend
-          envVarKey: RENDER_EXTERNAL_URL
-        value: /api/v1
-      - key: NODE_ENV
-        value: production
+        value: https://orkio-backend.onrender.com
 
