@@ -26,20 +26,23 @@ def init_database():
             print("⚠️  Usuário dangraebin@gmail.com já existe!")
             return
         
-        # Criar tenant
-        print("🏢 Criando tenant PATRO...")
-        tenant = Tenant(name="PATRO")
-        db.add(tenant)
-        db.commit()
-        db.refresh(tenant)
-        print(f"✅ Tenant criado! ID: {tenant.id}")
+        # Criar ou buscar tenant
+        tenant = db.query(Tenant).filter(Tenant.name == "PATRO").first()
+        if not tenant:
+            print("🏢 Criando tenant PATRO...")
+            tenant = Tenant(name="PATRO")
+            db.add(tenant)
+            db.commit()
+            db.refresh(tenant)
+            print(f"✅ Tenant criado! ID: {tenant.id}")
+        else:
+            print(f"✅ Tenant PATRO já existe! ID: {tenant.id}")
         
         # Criar usuário
         print("👤 Criando usuário dangraebin@gmail.com...")
         user = User(
             email="dangraebin@gmail.com",
-            hashed_password=get_password_hash("senha123"),
-            full_name="Daniel Graebin"
+            hashed_password=get_password_hash("senha123")
         )
         db.add(user)
         db.commit()
