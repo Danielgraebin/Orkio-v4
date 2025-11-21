@@ -6,17 +6,12 @@ from typing import AsyncGenerator
 import json
 import os
 import asyncio
-from openai import OpenAI
-
 from app.db.database import get_db
 from app.models.models import Conversation, ConversationMessage, Agent
 from app.core.auth_v4 import get_current_user, CurrentUser
 from app.services.rag_service import RAGService
 
 router = APIRouter(prefix="/chat")
-
-# Inicializar cliente OpenAI
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 class ChatRequest(BaseModel):
@@ -106,6 +101,9 @@ async def chat_stream(
             
             # Chamar OpenAI SEM streaming
             print(f"[DEBUG] Chamando OpenAI (NON-streaming) com {len(openai_messages)} mensagens")
+            
+            from openai import OpenAI
+            client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
             
             response = client.chat.completions.create(
                 model=agent_model,

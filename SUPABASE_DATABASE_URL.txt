@@ -1,0 +1,19 @@
+SUPABASE DATABASE URL - ORKIO v4
+=================================
+
+Connection String (Direct Connection):
+postgresql://postgres:[YOUR_PASSWORD]@db.sqiiakwpsinglcvujqyj.supabase.co:5432/postgres
+
+Substituir [YOUR_PASSWORD] por: HgXu3LbaWDdVshSF_6Qu4MziVd8osKrX
+
+DATABASE_URL completa:
+postgresql://postgres:HgXu3LbaWDdVshSF_6Qu4MziVd8osKrX@db.sqiiakwpsinglcvujqyj.supabase.co:5432/postgres
+
+Host: db.sqiiakwpsinglcvujqyj.supabase.co
+Port: 5432
+Database: postgres
+User: postgres
+Password: HgXu3LbaWDdVshSF_6Qu4MziVd8osKrX
+
+⚠️ IMPORTANTE: Esta é a connection string para usar no backend do Render!
+

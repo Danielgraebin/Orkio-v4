@@ -8,8 +8,6 @@ import os
 from typing import List, Tuple, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from openai import OpenAI
-
 from app.models.models import KnowledgeChunk, Document, RAGEvent
 
 
@@ -20,10 +18,17 @@ class RAGService:
     
     def __init__(self, db: Session):
         self.db = db
-        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self._client = None
         self.embedding_model = "text-embedding-3-small"
         self.top_k = 5  # Número de chunks mais relevantes
         self.similarity_threshold = 0.6  # Threshold de similaridade (0-1) - ajustado para melhor recall
+    
+    @property
+    def client(self):
+        if self._client is None:
+            from openai import OpenAI
+            self._client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        return self._client
     
     def generate_query_embedding(self, query: str) -> List[float]:
         """
