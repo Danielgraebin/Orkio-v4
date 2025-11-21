@@ -10,6 +10,7 @@ from app.core.security import get_password_hash
 # from app.api.users import users_router
 from app.api.admin_v4 import admin_v4_router
 from app.api.v4.user import user_v4_router
+from app.api.v4.webhooks import router as webhooks_router
 
 app = FastAPI(title="ORKIO API", version="1.0.0")
 
@@ -49,6 +50,9 @@ app.include_router(admin_v4_router, prefix=f"{settings.API_V1_STR}/admin")
 
 # User v4 Console
 app.include_router(user_v4_router, prefix=f"{settings.API_V1_STR}/u")
+
+# Webhooks for n8n Integration
+app.include_router(webhooks_router, prefix=f"{settings.API_V1_STR}")
 
 @app.get(f"{settings.API_V1_STR}/health")
 def health():
