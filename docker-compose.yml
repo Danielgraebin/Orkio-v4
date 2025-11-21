@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: orkio
+      POSTGRES_USER: orkio
+      POSTGRES_PASSWORD: orkio
+    ports:
+      - "5432:5432"
+    volumes:
+      - orkio_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orkio -d orkio"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://orkio:orkio@db:5432/orkio
+      JWT_SECRET: "change-me-in-prod"
+      JWT_ALGORITHM: "HS256"
+      API_V1_STR: "/api/v1"
+      CORS_ORIGINS: "http://localhost:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  web:
+    build: ./web
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:8000/api/v1"
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    command: ["npm","run","dev","--","-p","3000","-H","0.0.0.0"]
+
+volumes:
+  orkio_pg:
