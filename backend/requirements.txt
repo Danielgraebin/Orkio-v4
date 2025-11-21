@@ -8,5 +8,6 @@ alembic==1.13.3
 psycopg[binary]==3.2.1
 psycopg2-binary==2.9.9
 pgvector==0.3.6
+bcrypt==4.2.1
 passlib[argon2]==1.7.4
 PyJWT==2.9.0
