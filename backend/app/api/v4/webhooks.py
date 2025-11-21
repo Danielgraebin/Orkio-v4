@@ -10,7 +10,7 @@ from datetime import datetime
 
 from app.db.database import get_db
 from app.models.models import User, Tenant
-from app.core.auth_v4 import get_current_user_v4
+from app.core.security import get_current_user_v4
 
 router = APIRouter(prefix="/webhooks", tags=["Webhooks"])
 
