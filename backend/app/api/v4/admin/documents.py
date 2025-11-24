@@ -13,7 +13,7 @@ from app.models.models import Document, Agent, Membership, KnowledgeChunk
 from app.core.auth_v4 import get_current_user, CurrentUser
 from app.services.document_processor import DocumentProcessor
 
-router = APIRouter()
+router = APIRouter(prefix="/admin")
 
 
 class DocumentResponse(BaseModel):
