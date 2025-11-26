@@ -5,7 +5,7 @@ Estatísticas de uso da plataforma
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.core.dependencies import get_current_user_v4
+from app.core.security import get_current_user_v4
 from app.models.models import User
 
 router = APIRouter()

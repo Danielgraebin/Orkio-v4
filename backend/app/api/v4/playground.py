@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from app.db.database import get_db
-from app.core.dependencies import get_current_user_v4
+from app.core.security import get_current_user_v4
 from app.models.models import User, Agent
 from app.services.llm import chat_completion
 
