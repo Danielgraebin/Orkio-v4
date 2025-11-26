@@ -40,24 +40,11 @@ app.include_router(password_reset.router, prefix=f"{settings.API_V1_STR}/u", tag
 app.include_router(agents.router, prefix=f"{settings.API_V1_STR}/u", tags=["agents"])
 app.include_router(conversations.router, prefix=f"{settings.API_V1_STR}/u", tags=["conversations"])
 app.include_router(chat.router, prefix=f"{settings.API_V1_STR}/u", tags=["chat"])
-# Import playground inline to avoid import errors
-try:
-    from app.api.v4 import playground
-    app.include_router(playground.router, prefix=f"{settings.API_V1_STR}/u/playground", tags=["playground"])
-except Exception as e:
-    print(f"Warning: Could not load playground router: {e}")
-# Import apps inline
-try:
-    from app.api.v4 import apps
-    app.include_router(apps.router, prefix=f"{settings.API_V1_STR}/u", tags=["apps"])
-except Exception as e:
-    print(f"Warning: Could not load apps router: {e}")
-# Import usage inline
-try:
-    from app.api.v4 import usage
-    app.include_router(usage.router, prefix=f"{settings.API_V1_STR}/u", tags=["usage"])
-except Exception as e:
-    print(f"Warning: Could not load usage router: {e}")
+# User routers
+from app.api.v4.user import playground, apps, usage
+app.include_router(playground.router, prefix=f"{settings.API_V1_STR}/u/playground", tags=["playground"])
+app.include_router(apps.router, prefix=f"{settings.API_V1_STR}/u/apps", tags=["apps"])
+app.include_router(usage.router, prefix=f"{settings.API_V1_STR}/u/usage", tags=["usage"])
 
 # Admin routes
 app.include_router(admin_users.router, prefix=settings.API_V1_STR, tags=["admin-users"])
