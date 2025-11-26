@@ -4,7 +4,7 @@ Aggregates all user-facing endpoints
 """
 from fastapi import APIRouter
 from app.api.v4.user.agents import router as agents_router
-from app.api.v4.user import files, document_processing, rag_search
+from app.api.v4.user import files, document_processing, rag_search, playground, apps, usage
 from app.api.v4 import conversations, chat, auth, password_reset
 
 user_v4_router = APIRouter()
