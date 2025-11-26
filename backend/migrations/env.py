@@ -14,7 +14,7 @@ from app.models import models     # noqa
 target_metadata = Base.metadata
 
 def run_migrations_offline():
-    url = config.get_main_option("sqlalchemy.url")
+    url = os.getenv("DATABASE_URL") or config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url, target_metadata=target_metadata, literal_binds=True, dialect_opts={"paramstyle":"named"}
     )
@@ -22,6 +22,11 @@ def run_migrations_offline():
         context.run_migrations()
 
 def run_migrations_online():
+    # Priorizar DATABASE_URL da variável de ambiente
+    database_url = os.getenv("DATABASE_URL")
+    if database_url:
+        config.set_main_option("sqlalchemy.url", database_url)
+    
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
