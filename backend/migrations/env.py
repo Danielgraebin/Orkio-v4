@@ -24,8 +24,12 @@ def run_migrations_offline():
 def run_migrations_online():
     # Priorizar DATABASE_URL da variável de ambiente
     database_url = os.getenv("DATABASE_URL")
+    print(f"DEBUG: DATABASE_URL = {database_url[:50] if database_url else 'NOT SET'}...")
     if database_url:
         config.set_main_option("sqlalchemy.url", database_url)
+        print(f"DEBUG: Alembic URL configurada para: {database_url[:50]}...")
+    else:
+        print("WARNING: DATABASE_URL não encontrada! Usando alembic.ini")
     
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
