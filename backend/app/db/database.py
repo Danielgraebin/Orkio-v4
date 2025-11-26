@@ -5,8 +5,8 @@ from app.core.config import settings
 engine = create_engine(
     settings.DATABASE_URL,
     pool_pre_ping=True,
-    pool_size=3,
-    max_overflow=5,
+    pool_size=2,  # Mínimo absoluto para Supabase free tier
+    max_overflow=1,  # Máximo 3 conexões totais
     pool_recycle=3600
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
