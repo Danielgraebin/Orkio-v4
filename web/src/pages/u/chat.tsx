@@ -134,6 +134,12 @@ export default function ChatPage() {
     try {
       const data = await getConversationMessages(conversationId);
       setMessages(data);
+      
+      // Setar o agente da conversa atual
+      const conv = conversations.find(c => c.id === conversationId);
+      if (conv) {
+        setCurrentAgentId(conv.agent_id);
+      }
     } catch (err) {
       console.error("Erro ao carregar mensagens:", err);
     }
