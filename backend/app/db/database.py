@@ -1,13 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.pool import NullPool
 from app.core.config import settings
 
+# NullPool: sem pool, cria conexões sob demanda (ideal para Supabase free tier)
 engine = create_engine(
     settings.DATABASE_URL,
-    pool_pre_ping=True,
-    pool_size=2,  # Mínimo absoluto para Supabase free tier
-    max_overflow=1,  # Máximo 3 conexões totais
-    pool_recycle=3600
+    poolclass=NullPool,  # Sem pool - conexões sob demanda
+    pool_pre_ping=True
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
