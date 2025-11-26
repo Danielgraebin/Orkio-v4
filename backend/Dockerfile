@@ -5,6 +5,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY alembic.ini ./alembic.ini
 COPY app ./app
 COPY migrations ./migrations
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 ENV PYTHONPATH=/app
 EXPOSE 8000
-CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+CMD ["/app/start.sh"]
