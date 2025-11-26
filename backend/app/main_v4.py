@@ -11,7 +11,7 @@ from app.models.models import Tenant, User, Membership, Agent
 from app.core.security import get_password_hash
 
 # Importar rotas v4
-from app.api.v4 import auth, agents, conversations, chat, password_reset
+from app.api.v4 import auth, agents, conversations, chat, password_reset, playground, apps, usage
 from app.api.v4.admin import users as admin_users, agents as admin_agents, documents as admin_documents, agent_links as admin_agent_links, users_approval as admin_users_approval
 
 app = FastAPI(
@@ -40,6 +40,9 @@ app.include_router(password_reset.router, prefix=f"{settings.API_V1_STR}/u", tag
 app.include_router(agents.router, prefix=f"{settings.API_V1_STR}/u", tags=["agents"])
 app.include_router(conversations.router, prefix=f"{settings.API_V1_STR}/u", tags=["conversations"])
 app.include_router(chat.router, prefix=f"{settings.API_V1_STR}/u", tags=["chat"])
+app.include_router(playground.router, prefix=f"{settings.API_V1_STR}/u", tags=["playground"])
+app.include_router(apps.router, prefix=f"{settings.API_V1_STR}/u", tags=["apps"])
+app.include_router(usage.router, prefix=f"{settings.API_V1_STR}/u", tags=["usage"])
 
 # Admin routes
 app.include_router(admin_users.router, prefix=settings.API_V1_STR, tags=["admin-users"])
