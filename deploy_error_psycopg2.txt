@@ -1,0 +1,22 @@
+ERRO NO DEPLOY - psycopg2 ainda sendo importado
+
+Erro:
+```
+File "/usr/local/lib/python3.11/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 690, in import_dbapi
+    import psycopg2
+ModuleNotFoundError: No module named 'psycopg2'
+```
+
+CAUSA:
+O SQLAlchemy está tentando importar o dialect psycopg2 automaticamente, mesmo que tenhamos removido psycopg2-binary do requirements.txt.
+
+SOLUÇÃO:
+Precisamos garantir que o SQLAlchemy use o dialect psycopg (psycopg3) em vez de psycopg2.
+
+Isso pode ser feito de duas formas:
+1. Mudar a DATABASE_URL para usar `postgresql+psycopg://` em vez de `postgresql://` ou `postgresql+psycopg2://`
+2. Adicionar psycopg2-binary de volta ao requirements.txt (não recomendado, pois causa conflito)
+
+AÇÃO:
+Verificar se a DATABASE_URL está usando o dialect correto (psycopg3).
+
