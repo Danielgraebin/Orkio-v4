@@ -1,0 +1,10 @@
+Deploy FAILED - commit e2d416f
+Erro: ModuleNotFoundError: No module named 'app.schemas'
+
+from app.schemas.auth import UserResponse
+
+Problema: O arquivo app/api/v4/user/__init__.py está importando app.schemas.auth
+mas o módulo app.schemas não existe (foi removido anteriormente).
+
+Solução: Remover ou corrigir os imports em app/api/v4/user/__init__.py
+
