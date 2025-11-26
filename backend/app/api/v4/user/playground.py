@@ -4,7 +4,6 @@ from pydantic import BaseModel
 from app.db.database import get_db
 from app.models.models import Agent
 from app.core.security import get_current_user_v4
-from app.schemas.auth import UserResponse
 from openai import OpenAI
 import os
 
@@ -22,14 +21,14 @@ class PlaygroundResponse(BaseModel):
 async def run_playground(
     request: PlaygroundRequest,
     db: Session = Depends(get_db),
-    current_user: UserResponse = Depends(get_current_user_v4)
+    current_user: dict = Depends(get_current_user_v4)
 ):
     """Executa um prompt no playground com um agente específico"""
     
     # Buscar agente
     agent = db.query(Agent).filter(
         Agent.id == request.agent_id,
-        Agent.tenant_id == current_user.tenant_id
+        Agent.tenant_id == current_user["tenant_id"]
     ).first()
     
     if not agent:
