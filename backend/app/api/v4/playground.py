@@ -16,7 +16,7 @@ class PlaygroundRequest(BaseModel):
     agent_id: int
     message: str
 
-@router.post("/playground/run")
+@router.post("/run")
 async def playground_run(
     payload: PlaygroundRequest,
     current_user: User = Depends(get_current_user_v4),

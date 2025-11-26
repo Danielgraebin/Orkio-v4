@@ -40,7 +40,7 @@ app.include_router(password_reset.router, prefix=f"{settings.API_V1_STR}/u", tag
 app.include_router(agents.router, prefix=f"{settings.API_V1_STR}/u", tags=["agents"])
 app.include_router(conversations.router, prefix=f"{settings.API_V1_STR}/u", tags=["conversations"])
 app.include_router(chat.router, prefix=f"{settings.API_V1_STR}/u", tags=["chat"])
-app.include_router(playground.router, prefix=f"{settings.API_V1_STR}/u", tags=["playground"])
+app.include_router(playground.router, prefix=f"{settings.API_V1_STR}/u/playground", tags=["playground"])
 app.include_router(apps.router, prefix=f"{settings.API_V1_STR}/u", tags=["apps"])
 app.include_router(usage.router, prefix=f"{settings.API_V1_STR}/u", tags=["usage"])
 
